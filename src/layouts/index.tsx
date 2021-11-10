@@ -1,7 +1,7 @@
 import PrivateLayout from './PrivateLayout';
 import PublicLayout from './PublicLayout';
-import PageLoader from './PageLoader';
+import { PageLoader, ContentLoader } from './Loader';
 
 
 
-export { PrivateLayout, PublicLayout, PageLoader }
+export { PrivateLayout, PublicLayout, PageLoader, ContentLoader }
