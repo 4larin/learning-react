@@ -1,35 +1,28 @@
-import { Outlet } from "react-router"
-import { Link } from "react-router-dom"
-import { Layout, Menu } from 'antd'
+import { Navigate, Outlet } from "react-router"
+import { Layout } from 'antd'
+import Nav from "../components/Nav"
+import { useAppSelector } from "../redux/store/hook"
 
 const PrivateLayout = (props: any) => {
-
+    const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
     const { Header, Footer, Content, Sider } = Layout
 
-    return (
-        <Layout>
-            <Header className='header'>
-                <PrivateNav />
-            </Header>
+    if (isLoggedIn) {
+        return (
             <Layout>
-                <Sider>Sidebar</Sider>
-                <Content><Outlet /></Content>
-            </Layout>
-            <Footer><h1>Her is the footer</h1></Footer>
-        </Layout >
-    )
+                <Header className='header'>
+                    <Nav />
+                </Header>
+                <Layout>
+                    <Sider>Sidebar</Sider>
+                    <Content><Outlet {...props} /></Content>
+                </Layout>
+                <Footer><h1>Her is the footer</h1></Footer>
+            </Layout >
+        )
+    } else {
+        return <Navigate to="/login" />
+    }
 }
 
 export default PrivateLayout
-
-const PrivateNav = () => {
-    return (
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-            <Menu.Item key="1"><Link to='/admin'>Dashboard</Link></Menu.Item>
-            <Menu.Item key="2"><Link to='/admin/coupons'>Coupon</Link></Menu.Item>
-            <Menu.Item key="3"><Link to='/admin/bikes'>Bikes</Link></Menu.Item>
-            <Menu.Item key="4"><Link to='/admin/notFoundPage'>Not-Found-Page</Link></Menu.Item>
-            <Menu.Item key="4"><Link to='/login'>Logout</Link></Menu.Item>
-        </Menu>
-    )
-}
